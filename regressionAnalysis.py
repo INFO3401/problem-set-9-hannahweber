@@ -1,20 +1,47 @@
-Monday Problems
+# Monday Problems - worked with Taylor, Marissa, Jacob, Jack
+import csv
+
+# Part A
+class AnalysisData:
+
+    def __init__(self):
+        self.dataset = []
+        self.variables = []
+
+    def parseFile(self, filename):
+        with open(filename) as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                self.dataset.append(row)
+
+data = AnalysisData()
+data.parseFile("candy-data.csv")
+
+# Part B
+class LogisticAnalysis:
+    
+    def __init__(self):
+        self.bestX = ""
+        self.targetY = ""
+        self.fit = ""
+
+# Part C
+class LinearAnalysis:
+    
+    def __init__(self):
+        self.bestX = ""
+        self.targetY = ""
+        self.fit = ""
+        
+# Problem 1
 
 import csv
 
-class AnalysisData(object):
-
-# initialize any attributes and hand prepocessing
-def __init__(self, type):
-    self.type = type
-    self.dataset = []
-
-# define a function
 def parseFile(self, filename):
-    with open("candy-data.csv") as csv_file:
-        if (self.type == “csv”):
-            reader = csv.reader(open(filename))
-            for row in reader:
-                self.data.append(row)
-        else:
-            self.data = open(filename).read()
+    with open(filename) as csv:
+        reader = csv.reader(open(filename))
+        for row in reader:
+            self.dataset.append(row)
+
+data = AnalysisData()
+data.parseFile("candy-data.csv")
