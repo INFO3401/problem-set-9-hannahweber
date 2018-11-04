@@ -1,4 +1,4 @@
-# Monday Problems - worked with Taylor, Marissa, Jacob, Jack
+# Monday/Wednesday Problems - worked with Taylor, Marissa, Jacob, Jack
 import csv
 import pandas as pd
 
@@ -10,7 +10,11 @@ class AnalysisData:
         self.variables = []
 
     def parseFile(self, filename):
+        
+        #read csv into a panda
         self.dataset = pd.read_csv(filename)
+        
+        # set all of the column names, except the first one, into the variables variable
         for column in self.dataset.columns.values:
             if column != "competitorname":
                 self.variables.append(column)
@@ -20,6 +24,7 @@ class AnalysisData:
 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
+
 class LinearAnalysis:
     
     def __init__(self, targetY_input):
@@ -28,11 +33,31 @@ class LinearAnalysis:
         self.fit = ""
         
     def runSimpleAnalysis(self, data):
+        best_rscore = -1
+        best_variable = ""
+        
+        for column in data.variables:
+                if column != self.targetY:
+                        independent_variable = data.dataset[column].values
+                        # this line fixed an error that was occurring when running the line above
+                        independent_variable = independent_variable.reshape(len(independent_variable), 1)
+                        
         regr = LinearRegression()
-        regr.fit(<candy>, <sugar>)
-        regr.predict(<candy>)
-        r2_score(<sugar>, <predicted values>)
-
+        regr.fit(independent_variable, data.dataset[self.targetY])
+        #regr.fit(<candy>, <sugar>)
+        prediction = regr.predict(independent_variable)
+        #regr.predict(<candy>)
+        r_score = r2_score(data.dataset[self.targetY], prediction)
+        #r2_score(<sugar>, <predicted values>)
+        
+        if r_score > best_rscore:
+            best_rscore = r_score
+            best_variable = column
+            
+        self.bestX = best_variable
+        print(best_variable, best_rscore)
+        
+        
 # Part C
 class LogisticAnalysis:
     
@@ -42,11 +67,12 @@ class LogisticAnalysis:
         self.fit = ""
         
 # Problem 1
-data = AnalysisData()
-data.parseFile("candy-data.csv")
+analysisData = AnalysisData()
+analysisData.parseFile("candy-data.csv")
 
 #Problem 2 - shown in Part B and C
 
 # Wednesday Problems - worked with Taylor, Marissa, Jack
 # Problem 3
-
+linearAnalysis = LinearAnalysis("sugarpercent")
+linearAnalysis.runSimpleAnalysis(analysisData)
